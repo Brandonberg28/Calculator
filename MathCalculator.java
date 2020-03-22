@@ -26,43 +26,27 @@ public class MathCalculator extends Application
    Button one = new Button("1");
    Button two = new Button("2");
    Button three = new Button("3");
-   Button add = new Button("+");
    Button four = new Button("4");
    Button five = new Button("5");
    Button six = new Button("6");
-   Button subtract = new Button("-");
    Button seven = new Button("7");
    Button eight = new Button("8");
    Button nine = new Button("9");
+   Button zero = new Button("0");
+   
+   Button add = new Button("+");
+   Button subtract = new Button("-");
    Button multiply = new Button("*");
    Button clear = new Button("Clear");
-   Button zero = new Button("0");
    Button equal = new Button("=");
    Button divide = new Button("/");
    
    String calculatorQueue = ""; //Queue to hold numbers for calculator to do Math on
-   int wasNumAdded = 0;
    int additionActivator = 0;
    int subtractionActivator = 0;
    int multiplicationActivator = 0;
    int divisionActivator = 0;
-   int equationsCalculated = 0;
    
-   //create add button function
-   public void addNumber(String number)
-   {
-      if(wasNumAdded > 0)
-      {
-         textBox.setText(calculatorQueue+"" + number);
-         calculatorQueue += number;
-      }
-      else 
-      {  
-      textBox.setText(number);
-      calculatorQueue += number;
-      wasNumAdded++;
-      }
-   }
    
    
    public void start(Stage stage)
@@ -252,26 +236,28 @@ public class MathCalculator extends Application
             if(additionActivator > 0)
             {
                textBox.setText(performArithmetic("+")+"");
+               clearArithmeticActivators(); //clears arithmetic activators so calculator knows which one is pressed the second time around(cause of > 0)
             }
             else if(subtractionActivator > 0)
             {
                textBox.setText(performArithmetic("-")+"");
+               clearArithmeticActivators(); //clears arithmetic activators so calculator knows which one is pressed the second time around(cause of > 0)
             }
             else if(multiplicationActivator > 0)
             {
                textBox.setText(performArithmetic("*")+"");
+               clearArithmeticActivators(); //clears arithmetic activators so calculator knows which one is pressed the second time around(cause of > 0)
             }
             else if(divisionActivator > 0)
             {
                textBox.setText(performArithmetic("/")+"");
-            }
-            //equationsCalculated++; //tracks if arithmetic was performed 
+               clearArithmeticActivators(); //clears arithmetic activators so calculator knows which one is pressed the second time around(cause of > 0)
+            } 
          } 
          if(e.getSource() == clear) //executes if 'clear' button is pressed
          {
             textBox.setText("");
             calculatorQueue = "";
-            wasNumAdded = 0;
             additionActivator = 0;
             subtractionActivator = 0;
             multiplicationActivator = 0;
@@ -289,21 +275,45 @@ public class MathCalculator extends Application
       int num1 = Integer.parseInt(stringNum1);
       int num2 = Integer.parseInt(stringNum2); 
       if(additionActivator > 0)
-      {         
+      {
+         calculatorQueue = (num1 + num2)+"";         
          return num1 + num2;
       }
       else if(subtractionActivator > 0)
-      {
+      {  
+         calculatorQueue = (num1 - num2)+"";
          return num1 - num2;
       }
       else if(multiplicationActivator > 0)
       {
+         calculatorQueue = (num1 * num2)+"";
          return num1 * num2;
       }
-      else // if(divisionActivator > 0) 
+      else 
       {
+         calculatorQueue = (num1 / num2)+"";
          return num1 / num2;
       }               
    }
+   
+   
+   //create add Number function
+   public void addNumber(String number)
+   {
+      calculatorQueue += number;
+      textBox.setText(calculatorQueue);
+   }
+   
+   
+   //create function that clears arithmetic activators 
+   public void clearArithmeticActivators()
+   {
+      additionActivator = 0;
+      subtractionActivator = 0;
+      multiplicationActivator = 0;
+      divisionActivator = 0;
+   }
+   
+   
       
 }//main bracket
