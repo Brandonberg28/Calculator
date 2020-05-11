@@ -38,7 +38,7 @@ public class ContentHolder extends VBox
    private int multiplicationActivator = 0;
    private int divisionActivator = 0;
     
-   public ContentHolder()
+   public ContentHolder()  //CHANGE METHODS FOR SETUP
    {
       setupAnswerTextBox();
 
@@ -47,11 +47,12 @@ public class ContentHolder extends VBox
       numButtonHolder.setPrefSize(180,240);
       
       for(int i=1; i<10; i++)  //create number buttons 1-9 and store in array
-      {
-         numButtonArr[i] = new Button(i+"");
-         numButtonArr[i].setPrefSize(60,60);
-         numButtonArr[i].setOnAction(new ButtonListener());
-         numButtonHolder.getChildren().add(numButtonArr[i]);
+      {        
+         var btn = new Button(Integer.toString(i));
+         btn.setPrefSize(60,60);
+         btn.setOnAction(new ButtonListener());
+         numButtonArr[i] = btn;
+         numButtonHolder.getChildren().add(btn);
       }
       
       //create and add 0, clear & = buttons to numButtonHolder array
@@ -64,6 +65,7 @@ public class ContentHolder extends VBox
       numButtonArr[0].setOnAction(new ButtonListener());
       numButtonArr[10].setOnAction(new ButtonListener());
       numButtonArr[11].setOnAction(new ButtonListener());
+      
       numButtonHolder.getChildren().add(numButtonArr[0]);
       numButtonHolder.getChildren().add(numButtonArr[10]);
       numButtonHolder.getChildren().add(numButtonArr[11]);
@@ -185,7 +187,7 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {
-         calculatorQueue += "/";
+         calculatorQueue += "/";  
          divisionActivator++;                 
       }
    }
@@ -224,9 +226,11 @@ public class ContentHolder extends VBox
    {
       calculatorQueue += number;
       answerTextBox.setText(calculatorQueue);
+      
+      //answerTextBox.setText(answerTextBox.getText() + number); //NEW CHANGE WITH THIS
    }   
 
-
+   
 
 
 }
