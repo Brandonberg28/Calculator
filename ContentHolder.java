@@ -37,16 +37,12 @@ public class ContentHolder extends VBox
    private int subtractionActivator = 0;
    private int multiplicationActivator = 0;
    private int divisionActivator = 0;
-
-   
+    
    public ContentHolder()
    {
-      //set text properties
-      answerTextBox.setAlignment(Pos.CENTER);
-      answerTextBox.setPrefSize(240,70);
-      
-      buttonHolder.setPrefSize(240,240);  //change height to manage gap between textbox and buttons
-      buttonHolder.setAlignment(Pos.CENTER);
+      setupAnswerTextBox();
+
+      setupButtonHolder();
       
       numButtonHolder.setPrefSize(180,240);
       
@@ -94,6 +90,19 @@ public class ContentHolder extends VBox
       
       getChildren().add(answerTextBox);
       getChildren().add(buttonHolder);
+   }
+   
+   private void setupAnswerTextBox()
+   {
+      //set text properties
+      answerTextBox.setAlignment(Pos.CENTER);
+      answerTextBox.setPrefSize(240,70);
+   } 
+   
+   private void setupButtonHolder()
+   {
+      buttonHolder.setPrefSize(240,240); 
+      buttonHolder.setAlignment(Pos.CENTER);
    }
    
    public class ButtonListener implements EventHandler<ActionEvent>
