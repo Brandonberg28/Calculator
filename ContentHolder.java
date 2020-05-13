@@ -120,8 +120,12 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {
-         Button btn  = (Button)e.getSource();
-         addNumber(btn.getText());
+         if(arithmeticOperatorHolder != null)  //if the plus button has already been pressed then clear the textBox
+         {
+            answerTextBox.setText("");
+         }
+            Button btn  = (Button)e.getSource();
+            addNumber(btn.getText());
       }
    }
    
@@ -129,6 +133,8 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {       
+         num1 = 0;
+         num2 = 0;
          answerTextBox.setText("");
       }
    }
@@ -150,7 +156,7 @@ public class ContentHolder extends VBox
    
    private void performOperation(ArithmeticOperator ao)
    {
-      if(arithmeticOperatorHolder != null)
+      if(arithmeticOperatorHolder != null)  //if the addition button has already been pressed and its being pressed a 3rd time then perform the equals stuff
          {
             performEquals();
          } 
@@ -158,6 +164,7 @@ public class ContentHolder extends VBox
          arithmeticOperatorHolder = ao;
          answerTextBox.requestFocus();
          answerTextBox.selectAll();
+         //answerTextBox.setText("");
    }
       
    public class AddButtonListener implements EventHandler<ActionEvent>
