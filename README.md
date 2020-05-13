@@ -1,2 +1,0 @@
-# Calculator
-First GUI calculator 
