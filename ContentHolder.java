@@ -111,8 +111,9 @@ public class ContentHolder extends VBox
    private void addNumber(String number)
    {    
       //KeyEvent(EventType<KeyEvent> eventType, String character, String text, KeyCode code, boolean shiftDown, boolean controlDown, boolean altDown, boolean metaDown)
-      answerTextBox.onKeyTyped(new KeyEvent(KeyEvent.KEY_TYPED,number,number,KeyCode.NUMPAD1,false,false,false,false));
-      //answerTextBox.setText(answerTextBox.getText() + number);
+      //answerTextBox.onKeyTyped(new KeyEvent(KeyEvent.KEY_TYPED,number,number,KeyCode.NUMPAD1,false,false,false,false));
+      answerTextBox.setText(answerTextBox.getText() + number);
+      //if flag is set then just set the text(overwrite it) **************
    }
    
    public class NumberButtonListener implements EventHandler<ActionEvent>
