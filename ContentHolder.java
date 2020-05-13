@@ -17,7 +17,7 @@ import javafx.geometry.*;
 public class ContentHolder extends VBox
 {
 
-   private TextField answerTextBox = new TextField("Calculate something...");
+   private TextField answerTextBox = new TextField();
    private HBox buttonHolder = new HBox();
    
    private FlowPane numButtonHolder = new FlowPane();
@@ -25,6 +25,7 @@ public class ContentHolder extends VBox
    
    private Button [] numButtonArr = new Button [12];  //array that holds number buttons
    
+   private ArithmeticOperator arithmeticOperatorHolder;
    private Button add = new Button("+");
    private Button subtract = new Button("-");
    private Button multiply = new Button("*");
@@ -32,15 +33,10 @@ public class ContentHolder extends VBox
    private Button equal = new Button("=");
    private Button divide = new Button("/"); 
    
-   private String userNumberInput = ""; //Queue to hold numbers for calculator to do Math on
    private int num1 = 0;
    private int num2 = 0;
    private boolean arithmeticButtonPressed = false;
-   
-   private int additionActivator = 0; 
-   private int subtractionActivator = 0;
-   private int multiplicationActivator = 0;
-   private int divisionActivator = 0;
+
     
    public ContentHolder()  
    {
@@ -71,7 +67,7 @@ public class ContentHolder extends VBox
       {        
          var btn = new Button(Integer.toString(i));
          btn.setPrefSize(60,60);
-         btn.setOnAction(new ButtonListener());
+         btn.setOnAction(new NumberButtonListener());
          numButtonArr[i] = btn;
          numButtonHolder.getChildren().add(btn);
       }
@@ -83,9 +79,9 @@ public class ContentHolder extends VBox
       numButtonArr[0].setPrefSize(60,60);
       numButtonArr[10].setPrefSize(60,60);
       numButtonArr[11].setPrefSize(60,60);
-      numButtonArr[0].setOnAction(new ButtonListener());
-      numButtonArr[10].setOnAction(new ButtonListener());
-      numButtonArr[11].setOnAction(new ButtonListener());
+      numButtonArr[0].setOnAction(new NumberButtonListener());
+      numButtonArr[10].setOnAction(new ClearButtonListener());
+      numButtonArr[11].setOnAction(new EqualsButtonListener());
       
       numButtonHolder.getChildren().add(numButtonArr[0]);
       numButtonHolder.getChildren().add(numButtonArr[10]);
@@ -113,78 +109,61 @@ public class ContentHolder extends VBox
    }
    
    private void addNumber(String number)
-   {
-      userNumberInput += number;
-      answerTextBox.setText(userNumberInput);
-      
-      //answerTextBox.setText(answerTextBox.getText() + number); //NEW CHANGE WITH THIS
+   {    
+      //KeyEvent(EventType<KeyEvent> eventType, String character, String text, KeyCode code, boolean shiftDown, boolean controlDown, boolean altDown, boolean metaDown)
+      answerTextBox.onKeyTyped(new KeyEvent(KeyEvent.KEY_TYPED,number,number,KeyCode.NUMPAD1,false,false,false,false));
+      //answerTextBox.setText(answerTextBox.getText() + number);
    }
    
-   public class ButtonListener implements EventHandler<ActionEvent>
+   public class NumberButtonListener implements EventHandler<ActionEvent>
    {
       public void handle(ActionEvent e)
       {
-         for(int i=0; i<10; i++)  //add number (0-9) to textbox if pressed
-         {
-            if(e.getSource() == numButtonArr[i]) 
-            {
-               addNumber(Integer.toString(i));
-            }
-         }
-         
-         if(e.getSource() == numButtonArr[10])  //execute if CLEAR button is pressed
-         {
-            answerTextBox.setText("");
-            userNumberInput = "";
-            additionActivator = 0;
-            subtractionActivator = 0;
-            multiplicationActivator = 0;
-            divisionActivator = 0;
-         }
-         
-         if(e.getSource() == numButtonArr[11])  //execute if = button is pressed
-         {
-            if(additionActivator > 0)
-            {
-               num2 = Integer.parseInt(userNumberInput);    //parse user's 2nd num to an int
-               answerTextBox.setText(Integer.toString(ArithmeticPerformer.add(num1,num2)));  //display sum in textBox as a String
-               userNumberInput = Integer.toString(ArithmeticPerformer.add(num1,num2));       //make sum the new userNumberInput 
-               additionActivator = 0;                                                        //resets arithmetic activator
-            }
-            else if(subtractionActivator > 0)
-            {
-               num2 = Integer.parseInt(userNumberInput);    //parse user's 2nd num to an int
-               answerTextBox.setText(Integer.toString(ArithmeticPerformer.subtract(num1,num2)));  //display sum in textBox as a String
-               userNumberInput = Integer.toString(ArithmeticPerformer.subtract(num1,num2));
-               subtractionActivator = 0;
-            }
-            else if(multiplicationActivator > 0)
-            {
-               num2 = Integer.parseInt(userNumberInput);    //parse user's 2nd num to an int
-               answerTextBox.setText(Integer.toString(ArithmeticPerformer.multiply(num1,num2)));  //display sum in textBox as a String
-               userNumberInput = Integer.toString(ArithmeticPerformer.multiply(num1,num2));
-               multiplicationActivator = 0;
-            }
-            else if(divisionActivator > 0)
-            {
-               num2 = Integer.parseInt(userNumberInput);    //parse user's 2nd num to an int
-               answerTextBox.setText(Integer.toString(ArithmeticPerformer.divide(num1,num2)));  //display sum in textBox as a String
-               userNumberInput = Integer.toString(ArithmeticPerformer.divide(num1,num2));
-               divisionActivator = 0;
-            }
-         }
-                          
+         Button btn  = (Button)e.getSource();
+         addNumber(btn.getText());
       }
    }
    
+   public class ClearButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {       
+         answerTextBox.setText("");
+      }
+   }
+   
+   private void performEquals()
+   {
+      num2 = Integer.parseInt(answerTextBox.getText());    //parse user's 2nd num to an int
+      answerTextBox.setText(Integer.toString(arithmeticOperatorHolder.execute(num1,num2)));  //display sum in textBox as a String
+      arithmeticOperatorHolder = null;
+   }
+   
+   public class EqualsButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {          
+         performEquals();
+      }
+   }
+   
+   private void performOperation(ArithmeticOperator ao)
+   {
+      if(arithmeticOperatorHolder != null)
+         {
+            performEquals();
+         } 
+         num1 = Integer.parseInt(answerTextBox.getText());      //parse user's 1st num to an int
+         arithmeticOperatorHolder = ao;
+         answerTextBox.requestFocus();
+         answerTextBox.selectAll();
+   }
+      
    public class AddButtonListener implements EventHandler<ActionEvent>
    {
       public void handle(ActionEvent e)
-      {
-         answerTextBox.setText("+");                    //set the answerTextBox to show "+"
-         num1 = Integer.parseInt(userNumberInput);      //parse user's 1st num to an int
-         additionActivator++;                           //keep track that addButton was pressed
-         userNumberInput = "";                          //clear user number input for num2
+      {    
+         performOperation(new AdditionArithmeticOperator());
       }
    }
    
@@ -192,10 +171,7 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {
-         answerTextBox.setText("-");                    //set the answerTextBox to show "-"
-         num1 = Integer.parseInt(userNumberInput);      //parse user's 1st num to an int
-         subtractionActivator++;                        //keep track that subtractButton was pressed
-         userNumberInput = "";                          //clear user number input for num2
+         performOperation(new SubtractionArithmeticOperator());      
       }
    }
    
@@ -203,10 +179,7 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {
-         answerTextBox.setText("*");                    //set the answerTextBox to show "*"
-         num1 = Integer.parseInt(userNumberInput);      //parse user's 1st num to an int
-         multiplicationActivator++;                     //keep track that multiplyButton was pressed
-         userNumberInput = "";                          //clear user number input for num2                
+         performOperation(new MultiplicationArithmeticOperator());                
       }
    }
    
@@ -214,10 +187,7 @@ public class ContentHolder extends VBox
    {
       public void handle(ActionEvent e)
       {
-         answerTextBox.setText("/");                    //set the answerTextBox to show "/"
-         num1 = Integer.parseInt(userNumberInput);      //parse user's 1st num to an int
-         divisionActivator++;                           //keep track that divideButton was pressed
-         userNumberInput = "";                          //clear user number input for num2                
+         performOperation(new DivisionArithmeticOperator());                
       }
    }   
    

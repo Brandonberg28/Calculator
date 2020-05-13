@@ -26,7 +26,7 @@ public class MathCalculator extends Application
       //set root properties 
       root.setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
       root.setAlignment(Pos.CENTER);
-      
+  
       root.getChildren().add(contentHolder); 
       
       Scene scene = new Scene(root,350,400);
