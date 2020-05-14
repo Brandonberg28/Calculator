@@ -14,7 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.geometry.*;
 
-public class MathCalculator extends Application  
+public class MathCalculator extends Application  //BUG 9 * 6 - 50 r
 {
 
    //create objects (Buttons, ComboBoxes, Textfields) here
