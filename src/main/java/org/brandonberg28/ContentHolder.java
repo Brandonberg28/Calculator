@@ -1,18 +1,13 @@
-import java.util.*;
-import java.text.*;
-import java.io.*;
-import javafx.application.*;
-import javafx.event.*;
-import javafx.stage.*;
-import javafx.scene.canvas.*;
-import javafx.scene.paint.*;
-import javafx.scene.*;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
-import javafx.animation.*;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.geometry.*;
+package org.brandonberg28;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class ContentHolder extends VBox
 {
@@ -29,9 +24,7 @@ public class ContentHolder extends VBox
    private Button add = new Button("+");
    private Button subtract = new Button("-");
    private Button multiply = new Button("*");
-   private Button clear = new Button("Clear");
-   private Button equal = new Button("=");
-   private Button divide = new Button("/"); 
+   private Button divide = new Button("/");
    
    private int num1 = 0;
    private int num2 = 0;
