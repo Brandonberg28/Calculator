@@ -33,7 +33,7 @@ public class MathCalculatorApp extends Application {
       
         Scene scene = new Scene(root,350,400);
         stage.setScene(scene);
-        stage.setTitle("Lab 6");
+        stage.setTitle("Math Calculator");
         stage.show();      
     }
 
