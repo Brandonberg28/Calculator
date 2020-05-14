@@ -29,8 +29,6 @@ public class ContentHolder extends VBox
    private int num1 = 0;
    private int num2 = 0;
    private boolean equalsButtonPressed = false;
-   
-
     
    public ContentHolder()  
    {
