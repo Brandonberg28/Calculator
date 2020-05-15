@@ -74,4 +74,26 @@ public class ArithmeticPerformerTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void wildTest()
+    {
+        //arrange
+        int num1 = 10;
+        int num2 = 2;
+        int num3 = 6;
+        int num4 = 10;
+        int num5 = 3;
+        int expected = 20;
+        int actual;
+
+        //act
+        actual = ArithmeticPerformer.add(num1, num2);         // 10 + 2 = 12
+        actual = ArithmeticPerformer.subtract(actual, num3);  // 12 - 6 = 6
+        actual = ArithmeticPerformer.multiply(actual,num4);   // 6 * 10 = 60
+        actual = ArithmeticPerformer.divide(actual,num5);     // 60 / 3 = 20
+
+        //assert
+        assertEquals(expected, actual);
+    }
+
 }

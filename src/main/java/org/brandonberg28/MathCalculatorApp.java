@@ -13,13 +13,13 @@ import javafx.geometry.*;
  * JavaFX App
  */
 public class MathCalculatorApp extends Application {
-   //create objects (Buttons, ComboBoxes, Textfields) here
-   FlowPane root = new FlowPane();
-   ContentHolder contentHolder = new ContentHolder();  //contentHolder.create(); 
+
+    FlowPane root = new FlowPane();
+   ContentHolder contentHolder = new ContentHolder();   
      
     @Override
     public void start(final Stage stage) {
-        // set root properties
+        
         root.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         root.setAlignment(Pos.CENTER);
         
