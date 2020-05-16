@@ -36,8 +36,7 @@ public class ContentHolder extends VBox
       setupAlignmentAndPrefSizeAnswerTextBox();
       setupAlignmentAndPrefSizeButtonHolder();
                   
-      getChildren().add(answerTextBox);
-      getChildren().add(buttonHolder);
+      getChildren().addAll(answerTextBox,buttonHolder);
    }
 
    //#region public classes
@@ -167,13 +166,9 @@ public class ContentHolder extends VBox
       multiply.setOnAction(new MultiplyButtonListener());
       divide.setOnAction(new DivideButtonListener());    
       
-      arithmeticButtonHolder.getChildren().add(add); 
-      arithmeticButtonHolder.getChildren().add(subtract);
-      arithmeticButtonHolder.getChildren().add(multiply);
-      arithmeticButtonHolder.getChildren().add(divide);   
+      arithmeticButtonHolder.getChildren().addAll(add,subtract,multiply,divide);   
       
-      buttonHolder.getChildren().add(numButtonHolder);
-      buttonHolder.getChildren().add(arithmeticButtonHolder);
+      buttonHolder.getChildren().addAll(numButtonHolder,arithmeticButtonHolder);
    }
    
    private void addNumber(String number)
