@@ -33,24 +33,99 @@ public class ContentHolder extends VBox
     
    public ContentHolder()  
    {
-      setupAnswerTextBox();
-
-      setupButtonHolder();
+      setupAlignmentAndPrefSizeAnswerTextBox();
+      setupAlignmentAndPrefSizeButtonHolder();
                   
       getChildren().add(answerTextBox);
       getChildren().add(buttonHolder);
    }
-   
-   private void setupAnswerTextBox()   
+
+   //#region public classes
+
+   public class NumberButtonListener implements EventHandler<ActionEvent>
    {
-      //set text properties
+      public void handle(ActionEvent e)
+      {
+         if(equalsButtonPressed == true || arithmeticButtonPressed == true)  //if the plus or arithmetic button has already been pressed then clear the textBox before adding more numbers
+         {
+            answerTextBox.setText("");
+            equalsButtonPressed = false;
+            arithmeticButtonPressed = false;
+         }
+            Button btn  = (Button)e.getSource();
+            addNumber(btn.getText());
+      }
+   }
+   
+   public class ClearButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {       
+         num1 = 0;
+         num2 = 0;
+         answerTextBox.setText("");
+      }
+   }
+   
+   
+   public class EqualsButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {          
+         performEquals();
+         equalsButtonPressed = true;
+      }
+   }
+
+      
+   public class AddButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {    
+         performOperation(new AdditionArithmeticOperator());
+         setArithmeticButtonPressedToTrue();
+      }
+   }
+   
+   public class SubtractButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {
+         performOperation(new SubtractionArithmeticOperator());    
+         setArithmeticButtonPressedToTrue();  
+      }
+   }
+   
+   public class MultiplyButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {
+         performOperation(new MultiplicationArithmeticOperator());   
+         setArithmeticButtonPressedToTrue();             
+      }
+   }
+   
+   public class DivideButtonListener implements EventHandler<ActionEvent>
+   {
+      public void handle(ActionEvent e)
+      {
+         performOperation(new DivisionArithmeticOperator());   
+         setArithmeticButtonPressedToTrue();             
+      }
+   }   
+
+   //#endregion public classes
+
+   //#region private
+
+   private void setupAlignmentAndPrefSizeAnswerTextBox()   
+   {
       answerTextBox.setAlignment(Pos.CENTER);
       answerTextBox.setPrefSize(240,70);
    } 
    
-   private void setupButtonHolder()
+   private void setupAlignmentAndPrefSizeButtonHolder()
    {
-      //set buttonHolder properties
       buttonHolder.setPrefSize(240,240); 
       buttonHolder.setAlignment(Pos.CENTER);
       
@@ -107,48 +182,14 @@ public class ContentHolder extends VBox
       //answerTextBox.onKeyTyped(new KeyEvent(KeyEvent.KEY_TYPED,number,number,KeyCode.NUMPAD1,false,false,false,false));
       answerTextBox.setText(answerTextBox.getText() + number);
    }
-   
-   public class NumberButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {
-         if(equalsButtonPressed == true || arithmeticButtonPressed == true)  //if the plus or arithmetic button has already been pressed then clear the textBox before adding more numbers
-         {
-            answerTextBox.setText("");
-            equalsButtonPressed = false;
-            arithmeticButtonPressed = false;
-         }
-            Button btn  = (Button)e.getSource();
-            addNumber(btn.getText());
-      }
-   }
-   
-   public class ClearButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {       
-         num1 = 0;
-         num2 = 0;
-         answerTextBox.setText("");
-      }
-   }
-   
+
    private void performEquals()
    {
       num2 = Integer.parseInt(answerTextBox.getText());    //parse user's 2nd num to an int
       answerTextBox.setText(Integer.toString(arithmeticOperatorHolder.execute(num1,num2)));  //display sum in textBox as a String
       arithmeticOperatorHolder = null;
    }
-   
-   public class EqualsButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {          
-         performEquals();
-         equalsButtonPressed = true;
-      }
-   }
-   
+
    private void performOperation(ArithmeticOperator ao)
    {
       if(arithmeticOperatorHolder != null)  //if arithmetic button already been pressed then performEquals() 
@@ -163,41 +204,7 @@ public class ContentHolder extends VBox
    {
       arithmeticButtonPressed = true;
    }
-      
-   public class AddButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {    
-         performOperation(new AdditionArithmeticOperator());
-         setArithmeticButtonPressedToTrue();
-      }
-   }
    
-   public class SubtractButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {
-         performOperation(new SubtractionArithmeticOperator());    
-         setArithmeticButtonPressedToTrue();  
-      }
-   }
-   
-   public class MultiplyButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {
-         performOperation(new MultiplicationArithmeticOperator());   
-         setArithmeticButtonPressedToTrue();             
-      }
-   }
-   
-   public class DivideButtonListener implements EventHandler<ActionEvent>
-   {
-      public void handle(ActionEvent e)
-      {
-         performOperation(new DivisionArithmeticOperator());   
-         setArithmeticButtonPressedToTrue();             
-      }
-   }   
+   //#endregion private
    
 }
